@@ -1,0 +1,13 @@
+SLOGI - Successfull login
+ULOGI - Unsuccessfull login
+SLOGO - Successfull logout
+ULOGO - Unsuccessfull logout
+SREG - Successfull registration
+UREG - Unsuccessfull registration
+GA - Get All
+C - Create
+S - Save
+RS - Revoked Sertificate
+TS - Trust Store
+GCS - Get Certificate by Serial 
+CV - Certificate Validation

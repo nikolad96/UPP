@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                pattern="%style{%d{dd-MMMM-yyyy HH:mm:ss}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+        </Console>
+ 
+        <RollingFile name="ErrorFile"
+            fileName="./logs/error-logger-log4j2.log"
+            filePattern="./logs/$${date:yyyy-MM}/error-logger-log4j2-%d{dd-MMMM-yyyy}-%i.log.gz">
+
+            <PatternLayout>
+                <pattern>%d{dd-MMMM-yyyy HH:mm:ss} %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <LevelRangeFilter minLevel="ERROR" maxLevel="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="WarnFile"
+            fileName="./logs/warn-logger-log4j2.log"
+            filePattern="./logs/$${date:yyyy-MM}/warn-logger-log4j2-%d{dd-MMMM-yyyy}-%i.log.gz">
+			<LevelRangeFilter minLevel="WARN" maxLevel="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{dd-MMMM-yyyy HH:mm:ss} %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="InfoFile"
+            fileName="./logs/info-logger-log4j2.log"
+            filePattern="./logs/$${date:yyyy-MM}/info-logger-log4j2-%d{dd-MMMM-yyyy}-%i.log.gz">
+
+			<LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{dd-MMMM-yyyy HH:mm:ss} %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+           
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+        <RollingFile name="DebugFile"
+            fileName="./logs/debug-logger-log4j2.log"
+            filePattern="./logs/$${date:yyyy-MM}/debug-logger-log4j2-%d{dd-MMMM-yyyy}-%i.log.gz">
+			<LevelRangeFilter minLevel="DEBUG" maxLevel="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <pattern>%d{dd-MMMM-yyyy HH:mm:ss} %p %C{1.} [%t] %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+            
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                    size="10 MB" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+        </RollingFile>
+    </Appenders>
+ 
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            
+        </Root>
+ 
+        <!-- LOG "bzb.server*" at TRACE level -->
+        <Logger name="bzb.server.controller" level="trace">
+        	<AppenderRef ref="ErrorFile" />
+            <AppenderRef ref="WarnFile" />
+            <AppenderRef ref="InfoFile" />
+            <AppenderRef ref="DebugFile" />
+        </Logger>
+    </Loggers>
+ 
+</Configuration>

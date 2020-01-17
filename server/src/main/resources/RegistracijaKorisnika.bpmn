@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_0dwj6w9" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.4.1">
+  <bpmn:process id="registracija" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1" camunda:initiator="initiator">
+      <bpmn:outgoing>SequenceFlow_0u4vm9q</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0u4vm9q" sourceRef="StartEvent_1" targetRef="Task_0ijont6" />
+    <bpmn:serviceTask id="Task_119sn9b" name="kreiranje novog korisnika" camunda:class="bzb.server.service.impl.RegisterService">
+      <bpmn:incoming>SequenceFlow_14tq12d</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1cxk40h</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1cxk40h" sourceRef="Task_119sn9b" targetRef="Task_0oz8qkc" />
+    <bpmn:serviceTask id="Task_0oz8qkc" name="Slanje verifikacionog e-maila" camunda:expression="${true}">
+      <bpmn:extensionElements>
+        <camunda:executionListener class="bzb.server.handlers.SendMailHandler" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1cxk40h</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ziax94</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_0ziax94" sourceRef="Task_0oz8qkc" targetRef="Task_0klyc6l" />
+    <bpmn:serviceTask id="Task_0klyc6l" name="Potvrda novog korisnika" camunda:expression="${execution.setVariable(&#34;activated&#34;, &#34;true&#34;)}">
+      <bpmn:incoming>SequenceFlow_0ziax94</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_10prf4r</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_10prf4r" sourceRef="Task_0klyc6l" targetRef="ExclusiveGateway_0fq2wm1" />
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0fq2wm1">
+      <bpmn:incoming>SequenceFlow_10prf4r</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0qv0nlk</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1hvlcex</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0qv0nlk" sourceRef="ExclusiveGateway_0fq2wm1" targetRef="Task_1jrjj6k">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:userTask id="Task_1jrjj6k" name="Odobrenje statusa recenzenta" camunda:candidateGroups="admin">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="ime" label="Ime Recenzenta" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="prezime" label="Prezime Recenzenta" type="string">
+            <camunda:validation>
+              <camunda:constraint name="readonly" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="potvrda" label="Potvrdi" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0qv0nlk</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ce68l9</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1gid9q7">
+      <bpmn:incoming>SequenceFlow_0ce68l9</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1kb8dbj</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1v690hv</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0ce68l9" sourceRef="Task_1jrjj6k" targetRef="ExclusiveGateway_1gid9q7" />
+    <bpmn:sequenceFlow id="SequenceFlow_1kb8dbj" sourceRef="ExclusiveGateway_1gid9q7" targetRef="Task_1rusyf5">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:exclusiveGateway id="ExclusiveGateway_07vc84y">
+      <bpmn:incoming>SequenceFlow_1hvlcex</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1v690hv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0ah961r</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1hvlcex" sourceRef="ExclusiveGateway_0fq2wm1" targetRef="ExclusiveGateway_07vc84y">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="SequenceFlow_1v690hv" sourceRef="ExclusiveGateway_1gid9q7" targetRef="ExclusiveGateway_07vc84y">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="EndEvent_0uhsg39">
+      <bpmn:incoming>SequenceFlow_0ah961r</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0ah961r" sourceRef="ExclusiveGateway_07vc84y" targetRef="EndEvent_0uhsg39" />
+    <bpmn:endEvent id="EndEvent_0744mc1">
+      <bpmn:incoming>SequenceFlow_1kjppa8</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1kjppa8" sourceRef="Task_1rusyf5" targetRef="EndEvent_0744mc1" />
+    <bpmn:userTask id="Task_0ijont6" name="Unos licnih podataka novog korisnika" camunda:assignee="${initiator}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="ime" label="Ime" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="prezime" label="Prezime" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="grad" label="Grad" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="drzava" label="Drzava" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="titula" label="Titula" type="string" />
+          <camunda:formField id="email" label="Email" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="recenzent" label="Recenzent" type="boolean" />
+          <camunda:formField id="naucnaOblast" label="Naucne Oblasti" type="enum">
+            <camunda:value id="geografija" name="Geografija" />
+            <camunda:value id="fizika" name="Fizika" />
+            <camunda:value id="matematika" name="Matematika" />
+            <camunda:value id="jezici" name="Jezici" />
+            <camunda:value id="biologija" name="Biologija" />
+          </camunda:formField>
+          <camunda:formField id="username" label="Username" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+          <camunda:formField id="password" label="Password" type="string">
+            <camunda:validation>
+              <camunda:constraint name="required" />
+            </camunda:validation>
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_0u4vm9q</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_14tq12d</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:serviceTask id="Task_1rusyf5" name="Dodela statusa recenzenta" camunda:expression="${execution.setVariable(&#34;potvrdjen&#34;, &#34;true&#34;)}">
+      <bpmn:incoming>SequenceFlow_1kb8dbj</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1kjppa8</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_14tq12d" sourceRef="Task_0ijont6" targetRef="Task_119sn9b" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="registracija">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0u4vm9q_di" bpmnElement="SequenceFlow_0u4vm9q">
+        <di:waypoint x="188" y="117" />
+        <di:waypoint x="240" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1b2pam8_di" bpmnElement="Task_119sn9b">
+        <dc:Bounds x="500" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1cxk40h_di" bpmnElement="SequenceFlow_1cxk40h">
+        <di:waypoint x="600" y="117" />
+        <di:waypoint x="820" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1sijtzp_di" bpmnElement="Task_0oz8qkc">
+        <dc:Bounds x="820" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ziax94_di" bpmnElement="SequenceFlow_0ziax94">
+        <di:waypoint x="920" y="117" />
+        <di:waypoint x="1188" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1etxetx_di" bpmnElement="Task_0klyc6l">
+        <dc:Bounds x="1188" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_10prf4r_di" bpmnElement="SequenceFlow_10prf4r">
+        <di:waypoint x="1288" y="117" />
+        <di:waypoint x="1345" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0nwoih0_di" bpmnElement="ExclusiveGateway_0fq2wm1" isMarkerVisible="true">
+        <dc:Bounds x="1345" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0qv0nlk_di" bpmnElement="SequenceFlow_0qv0nlk">
+        <di:waypoint x="1395" y="117" />
+        <di:waypoint x="1470" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_1gdjlc8_di" bpmnElement="Task_1jrjj6k">
+        <dc:Bounds x="1470" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ExclusiveGateway_1gid9q7_di" bpmnElement="ExclusiveGateway_1gid9q7" isMarkerVisible="true">
+        <dc:Bounds x="1635" y="92" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ce68l9_di" bpmnElement="SequenceFlow_0ce68l9">
+        <di:waypoint x="1570" y="117" />
+        <di:waypoint x="1635" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kb8dbj_di" bpmnElement="SequenceFlow_1kb8dbj">
+        <di:waypoint x="1685" y="117" />
+        <di:waypoint x="1730" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_07vc84y_di" bpmnElement="ExclusiveGateway_07vc84y" isMarkerVisible="true">
+        <dc:Bounds x="1515" y="255" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1hvlcex_di" bpmnElement="SequenceFlow_1hvlcex">
+        <di:waypoint x="1370" y="142" />
+        <di:waypoint x="1370" y="280" />
+        <di:waypoint x="1515" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1v690hv_di" bpmnElement="SequenceFlow_1v690hv">
+        <di:waypoint x="1660" y="142" />
+        <di:waypoint x="1660" y="280" />
+        <di:waypoint x="1565" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0uhsg39_di" bpmnElement="EndEvent_0uhsg39">
+        <dc:Bounds x="1522" y="422" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0ah961r_di" bpmnElement="SequenceFlow_0ah961r">
+        <di:waypoint x="1540" y="305" />
+        <di:waypoint x="1540" y="422" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0744mc1_di" bpmnElement="EndEvent_0744mc1">
+        <dc:Bounds x="1762" y="432" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1kjppa8_di" bpmnElement="SequenceFlow_1kjppa8">
+        <di:waypoint x="1780" y="157" />
+        <di:waypoint x="1780" y="432" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="UserTask_03nkn0a_di" bpmnElement="Task_0ijont6">
+        <dc:Bounds x="240" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0kkps10_di" bpmnElement="Task_1rusyf5">
+        <dc:Bounds x="1730" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_14tq12d_di" bpmnElement="SequenceFlow_14tq12d">
+        <di:waypoint x="340" y="117" />
+        <di:waypoint x="500" y="117" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
