@@ -1,0 +1,6 @@
+<button (click)="getTasks()">Get tasks</button>
+
+<table>
+  <tr *ngFor="let task of tasks" > <td>{{task.name}}</td><td>{{task.assignee}}</td><td><button (click)="claim(task.taskId)">Claim</button></td> <td></td></tr>
+
+</table>

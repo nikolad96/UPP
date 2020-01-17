@@ -1,0 +1,16 @@
+<div class="container">
+  <form >
+    <fieldset>
+      <div class="form-group">
+        <label for="userF">Username:</label>
+        <input [(ngModel)]="userF" name="userF"  type="text" class="form-control" id="userF" placeholder="Enter Username">
+      </div>
+      <div class="form-group">
+        <label for="passF">Password:</label>
+        <input [(ngModel)]="passF" name="passF"  type="password" class="form-control" id="passF" placeholder="Enter Password">
+      </div>
+
+      <button (click)="submit()"  id="login" type="submit" class="btn btn-primary">Submit</button>
+    </fieldset>
+  </form>
+</div>
