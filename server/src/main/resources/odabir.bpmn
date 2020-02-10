@@ -275,7 +275,7 @@ println recenzentiFinal
     <bpmn:boundaryEvent id="IntermediateThrowEvent_1c8jz0l" attachedToRef="Task_1htnwox">
       <bpmn:outgoing>SequenceFlow_1052zh4</bpmn:outgoing>
       <bpmn:timerEventDefinition>
-        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT20S</bpmn:timeDuration>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT10H10M20S</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
     </bpmn:boundaryEvent>
     <bpmn:sequenceFlow id="SequenceFlow_1ma5j4p" sourceRef="Task_1htnwox" targetRef="Task_1iwjj1n" />
@@ -716,10 +716,10 @@ execution.setVariable("recenzentiFinalPom", instance);</bpmn:script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_05xda0y_di" bpmnElement="SequenceFlow_05xda0y">
         <di:waypoint x="3050" y="217" />
-        <di:waypoint x="3080" y="217" />
+        <di:waypoint x="3190" y="217" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1glmd9x_di" bpmnElement="Task_0qar7la">
-        <dc:Bounds x="3080" y="177" width="100" height="80" />
+        <dc:Bounds x="3190" y="177" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="UserTask_0i0j9ep_di" bpmnElement="Task_1htnwox">
         <dc:Bounds x="3460" y="177" width="100" height="80" />
@@ -755,7 +755,7 @@ execution.setVariable("recenzentiFinalPom", instance);</bpmn:script>
         <dc:Bounds x="3305" y="192" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0d99x5j_di" bpmnElement="SequenceFlow_0d99x5j">
-        <di:waypoint x="3180" y="217" />
+        <di:waypoint x="3290" y="217" />
         <di:waypoint x="3305" y="217" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1d6ec0o_di" bpmnElement="SequenceFlow_1d6ec0o">
