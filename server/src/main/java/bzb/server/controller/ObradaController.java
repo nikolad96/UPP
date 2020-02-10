@@ -130,6 +130,7 @@ public class ObradaController {
             if(field.getId().equals("casopis")){
                 EnumFormType enumType = (EnumFormType) field.getType();
                 for(Casopis c: casopisList){
+                    if(userService.findOneByUsername(identityService.getCurrentAuthentication().getUserId()).getNaucnaOblast().equals(c.getOblast()))
                     enumType.getValues().put(c.getId().toString(), c.getNaziv());
                 }
             }
