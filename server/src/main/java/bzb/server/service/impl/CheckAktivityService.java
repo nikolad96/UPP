@@ -17,10 +17,16 @@ public class CheckAktivityService implements JavaDelegate {
     UserService userService;
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
-        identityService.setAuthenticatedUserId("nikola321");
+         identityService.setAuthenticatedUserId("nikola321");
         String username = identityService.getCurrentAuthentication().getUserId();
+
+
+
         User user = userService.findOneByUsername(username);
         System.out.println(user.getUsername());
-        delegateExecution.setVariable("aktivan",false);
+        delegateExecution.setVariable("aktivan",user.isAktiviran());
+        System.out.println("**********************************");
+        System.out.println("NIJE AKTIVAN, MORA DA PLATI");
+        System.out.println("**********************************");
     }
 }

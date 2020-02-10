@@ -97,6 +97,11 @@ const Routes = [
     component: RecenzentiComponent,
     canActivate: [Notauthorized]
   },
+  {
+    path: "",
+    component: LoginComponent,
+    canActivate: [Notauthorized]
+  },
 
 ]
 
