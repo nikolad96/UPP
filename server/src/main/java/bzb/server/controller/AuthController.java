@@ -5,6 +5,7 @@ import bzb.server.model.User;
 import bzb.server.security.TokenUtils;
 import bzb.server.security.auth.JwtAuthenticationRequest;
 import bzb.server.security.auth.JwtResponse;
+import org.camunda.bpm.engine.IdentityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,9 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthController {
 
     @Autowired
+    IdentityService identityService;
+
+    @Autowired
     TokenUtils tokenUtils;
 
     @Autowired
@@ -42,6 +46,8 @@ public class AuthController {
 
         User user =  (User) authentication.getPrincipal();
 
+        identityService.setAuthenticatedUserId(authenticationRequest.getUsername());
+        System.out.println(identityService.getCurrentAuthentication().getUserId());
         if(user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

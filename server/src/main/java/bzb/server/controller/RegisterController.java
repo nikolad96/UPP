@@ -102,7 +102,7 @@ public class RegisterController {
         System.out.println("USAO U POST");
         Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
         String processInstanceId = task.getProcessInstanceId();
-        runtimeService.setVariable(processInstanceId, "registracija", dto);
+        runtimeService.setVariable(processInstanceId, "podaci", dto);
         formService.submitTaskForm(taskId, map);
         return new ResponseEntity<>(HttpStatus.OK);
     }

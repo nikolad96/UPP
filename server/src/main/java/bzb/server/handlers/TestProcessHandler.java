@@ -27,7 +27,6 @@ public class TestProcessHandler implements ExecutionListener {
 			user1.setLastName("Peric");
 			user1.setPassword("pass");
 			identityService.saveUser(user1);
-			
 			User user2 = identityService.newUser("mika");
 			user2.setEmail("mika@mail.com");
 			user2.setFirstName("Mika");

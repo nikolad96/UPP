@@ -49,6 +49,7 @@ public class RegisterService implements JavaDelegate {
                 user.setEmail(formField.getFieldValue());
             }
         }
+
         identityService.saveUser(user);
         bzb.server.model.User user1 = new bzb.server.model.User();
         for (FormSubmissionDto formField : registration) {
